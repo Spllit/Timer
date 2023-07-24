@@ -3,15 +3,18 @@ const buttonEl = document.querySelector('button');
 const timerEl = document.querySelector('span');
 
 const createTimerAnimator = () => {
+  let setIntervalLink;
   return (seconds) => {
-   const countDown =  setInterval(() => {
+    clearInterval(setIntervalLink)
+   const countDownFn = () => {
     if(seconds <= 0) clearInterval(countDown)
       let hours = Math.floor(seconds/60/60%60)
       let minutes = Math.floor(seconds/60%60)
       let leftSeconds = Math.floor(seconds%60)
       timerEl.innerHTML = `${hours} : ${minutes} : ${leftSeconds}`
       seconds--
-    }, 1000)
+    }
+    setIntervalLink = setInterval(countDownFn, 1000)
   };
 };
 
@@ -28,4 +31,3 @@ buttonEl.addEventListener('click', () => {
 
   inputEl.value = '';
 });
-// Имеется баг параллельного запуска нескольких SetInterval. Не удалось добиться удаления setInterval при повторном запуске функции
